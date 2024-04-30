@@ -5,11 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject player;
+
     //global varibles
     public Animator animator;
+    public PlayerAnimatorController playerAnimatorController;
 
     //input varibles
-    private Vector2 move;
+    public Vector2 move;
 
     //character specific variables
     public float speed;
@@ -18,6 +21,20 @@ public class PlayerController : MonoBehaviour
     //lock on related
     public GameObject lockOnTarget = null;
 
+    //action related
+    public bool isActing = false;
+
+    //roll related
+    public bool isRolling = false;
+    private bool rollInput = false;
+    private Vector3 rollStartPosition;
+    private Vector3 rollEndPosition;
+    private Vector3 rollDirection;
+    private float rollDistance = 7f;
+    private Vector3 rollVelocity;
+    private float rollVelocityMultiplier = 5f;
+    private float rollSmoothTime = 0.3f;
+
 
     //receive the left joystick movement from the player
     public void OnMove(InputAction.CallbackContext context)
@@ -25,18 +42,27 @@ public class PlayerController : MonoBehaviour
         move = context.ReadValue<Vector2>();
     }
 
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        rollInput = true;
+    }
+
+    
+
     // Update is called once per frame
     void Update()
     {
         HandleMove();
         HandleLockOn();
+        AttemptRoll();
+        translateRollingPlayer();
     }
 
 
     //using the user input to move the Player, set animation
     public void HandleMove()
     {
-        if(lockOnTarget == null)
+        if(lockOnTarget == null & isActing == false)
         {
             Vector3 movement = new Vector3(move.x, 0f, move.y);
 
@@ -53,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLockOn()
     {
-        if (lockOnTarget != null)
+        if (lockOnTarget != null & isActing == false)
         {
             //move the player with certain speed;
             Vector3 movement = new Vector3(move.x, 0f, move.y);
@@ -65,6 +91,42 @@ public class PlayerController : MonoBehaviour
             //manipulate the animation
             setLockOnAnimation(movement);
         }
+    }
+
+    private void AttemptRoll()
+    {
+        if (rollInput == false)
+        {
+            return;
+        }
+
+        rollInput = false;
+
+        if (isActing == true)
+        {
+            return;
+        }
+
+        isRolling = true;
+
+        HandleRoll();
+    }
+
+    private void HandleRoll()
+    {
+        //handle rotation
+        Vector3 movement = new Vector3(move.x, 0f, move.y);
+        rollDirection = movement.normalized;
+        Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
+        player.transform.rotation = playerRotation;
+
+        //calculate rolling related variables
+        rollStartPosition = player.transform.position;
+        rollEndPosition = player.transform.position + rollDirection * rollDistance;
+        rollVelocity = rollDirection * rollVelocityMultiplier;
+
+        //play the animation
+        playerAnimatorController.PlayActionAnimation("fist-roll-forward", true);
     }
 
     private void translatePlayer(Vector3 movement)
@@ -82,9 +144,29 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void translateRollingPlayer()
+    {
+        if(isRolling == false)
+        {
+            return;
+        }
+
+        player.transform.position = Vector3.SmoothDamp(player.transform.position, rollEndPosition, ref rollVelocity, rollSmoothTime);
+    }
+
+
     private void translateLockOnPlayer(Vector3 movement)
     {
-        transform.Translate(movement * lockOnSpeed * Time.deltaTime, Space.World);
+        if (movement.magnitude < 0.5f & movement.magnitude > 0)
+        {
+            float multiplier = 0.5f / movement.magnitude;
+            Vector3 minimumMovement = new Vector3(movement.x * multiplier, 0f, movement.z * multiplier);
+            transform.Translate(minimumMovement * lockOnSpeed * Time.deltaTime, Space.World);
+        }
+        else
+        {
+            transform.Translate(movement * lockOnSpeed * Time.deltaTime, Space.World);
+        }
     }
 
     private void rotatePlayer(Vector3 direction)
@@ -97,15 +179,11 @@ public class PlayerController : MonoBehaviour
 
     private void rotateLockOnPlayer(Vector3 movementInput)
     {
-        if(movementInput != Vector3.zero)
-        {
+
             Vector3 lockOnDirection = lockOnTarget.transform.position - transform.position;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(lockOnDirection.x,0f, lockOnDirection.z)), 0.15f);
-        }
         
     }
-
-
 
     private void setAnimation(Vector3 movement)
     {
@@ -152,6 +230,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    
+   
 
 }

@@ -48,6 +48,10 @@ public class LockOnDetection : MonoBehaviour
         {
             setUpHeadAim(playerController.lockOnTarget.transform.position);
         }
+        else
+        {
+            resetHeadAim();
+        }
     }
 
     private void handleLockOnStart()
@@ -57,13 +61,19 @@ public class LockOnDetection : MonoBehaviour
         if (playerController.lockOnTarget != null)
         {
             animator.SetBool("isLockingOn", true);
+            playerController.lockOnTarget.GetComponent<EnemyLockOnHandler>().isLockedOn = true;
         }
     }
     private void handleLockOnFinish()
     {
-        playerController.lockOnTarget = null;
         animator.SetBool("isLockingOn", false);
-        aim.localPosition = transform.localPosition + aimInitialOffset;
+
+        if (playerController.lockOnTarget != null)
+        {
+            playerController.lockOnTarget.GetComponent<EnemyLockOnHandler>().isLockedOn = false;
+            playerController.lockOnTarget = null;
+        }
+            
     }
 
     private GameObject FindNearestLockOnableObject()
@@ -87,4 +97,8 @@ public class LockOnDetection : MonoBehaviour
         aim.position = Vector3.SmoothDamp(aim.position, position, ref velocity, 0.2f);
     }
 
+    private void resetHeadAim()
+    {
+        aim.localPosition = Vector3.SmoothDamp(aim.localPosition, aimInitialOffset, ref velocity, 0.2f);
+    }
 }
