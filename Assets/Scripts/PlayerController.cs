@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float lockOnSpeed = 5f;
 
-    //lock on related
+    //lock on related //For Future note: add the isLockingOn flag for the player
     public GameObject lockOnTarget = null;
 
     //action related
@@ -27,13 +27,21 @@ public class PlayerController : MonoBehaviour
     //roll related
     public bool isRolling = false;
     private bool rollInput = false;
-    private Vector3 rollStartPosition;
     private Vector3 rollEndPosition;
     private Vector3 rollDirection;
-    private float rollDistance = 7f;
+    private float rollDistance = 10f;
     private Vector3 rollVelocity;
     private float rollVelocityMultiplier = 5f;
     private float rollSmoothTime = 0.3f;
+
+    //dodge related
+    public bool isDodging = false;
+    private Vector3 dodgeEndPosition;
+    private Vector3 dodgeDirection;
+    private float dodgeDistance = 4f;
+    private Vector3 dodgeVelocity;
+    private float dodgeVelocityMultiplier = 10f;
+    private float dodgeSmoothTime = 0.1f;
 
 
     //receive the left joystick movement from the player
@@ -54,8 +62,12 @@ public class PlayerController : MonoBehaviour
     {
         HandleMove();
         HandleLockOn();
+
         AttemptRoll();
         translateRollingPlayer();
+        translateDodgingPlayer();
+
+
     }
 
 
@@ -95,38 +107,87 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptRoll()
     {
+        //is no input for the roll or dodge, do nothing
         if (rollInput == false)
         {
             return;
         }
 
+        //once there is input for attemp roll, reset the rollinput flag
         rollInput = false;
 
+        //if player is acting, then don't do anything
         if (isActing == true)
         {
             return;
         }
 
-        isRolling = true;
-
-        HandleRoll();
+        //check we should roll or dodge, set up the rolling or dodging flag
+        RollOrDodge();
     }
 
-    private void HandleRoll()
+    private void RollOrDodge()
+    {
+        Vector3 movement = new Vector3(move.x, 0f, move.y);
+        if (lockOnTarget != null)
+        {
+
+            float angle = calculateAngle(movement);
+            if (angle < 30 & angle > -30)
+            {
+                isRolling = true;
+                HandleRoll(movement);
+            }
+            else
+            {
+                isDodging = true;
+                HandleDodge(angle, movement);
+            }
+        }
+        else
+        {
+            if (move == Vector2.zero)
+            {
+                isDodging = true;
+                HandleDodge(180f, -transform.forward);
+            }
+            else
+            {
+                isRolling = true;
+                HandleRoll(movement);
+            }
+
+        }
+    }
+
+    private void HandleRoll(Vector3 movement)
     {
         //handle rotation
-        Vector3 movement = new Vector3(move.x, 0f, move.y);
         rollDirection = movement.normalized;
         Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
         player.transform.rotation = playerRotation;
 
         //calculate rolling related variables
-        rollStartPosition = player.transform.position;
         rollEndPosition = player.transform.position + rollDirection * rollDistance;
         rollVelocity = rollDirection * rollVelocityMultiplier;
 
         //play the animation
-        playerAnimatorController.PlayActionAnimation("fist-roll-forward", true);
+        isActing = true;
+        animator.CrossFade("fist-diveRoll-forward", 0.2f);
+    }
+
+    private void HandleDodge(float dodgeAngle, Vector3 movement)
+    {
+        //no rotation
+        //calculate dodge related variables
+        dodgeDirection = movement.normalized;
+        dodgeEndPosition = player.transform.position + dodgeDirection * dodgeDistance;
+        dodgeVelocity = dodgeDirection * dodgeVelocityMultiplier;
+
+        //play related animation and set flag
+        isActing = true;
+        //set the currect animation base on the angle.
+        setDodgeAnimation(dodgeAngle);
     }
 
     private void translatePlayer(Vector3 movement)
@@ -152,6 +213,17 @@ public class PlayerController : MonoBehaviour
         }
 
         player.transform.position = Vector3.SmoothDamp(player.transform.position, rollEndPosition, ref rollVelocity, rollSmoothTime);
+    }
+
+    private void translateDodgingPlayer()
+    {
+
+        if(isDodging == false)
+        {
+            return;
+        }
+
+        player.transform.position = Vector3.SmoothDamp(player.transform.position, dodgeEndPosition, ref dodgeVelocity, dodgeSmoothTime);
     }
 
 
@@ -214,6 +286,20 @@ public class PlayerController : MonoBehaviour
             
     }
 
+    private void setDodgeAnimation(float dodgeAngle)
+    {
+        if (dodgeAngle >= 30f & dodgeAngle <= 105f)
+        {
+            animator.CrossFade("fist-dodge-left",0.2f);
+        } else if (dodgeAngle >= -105f & dodgeAngle <= -30)
+        {
+            animator.CrossFade("fist-dodge-right",0.2f);
+        }
+        else
+        {
+            animator.CrossFade("fist-dodge-backward", 0.2f);
+        }
+    }
     private float calculateAngle(Vector3 movement)
     {
         Vector2 directionToObject = new Vector2(lockOnTarget.transform.position.x - transform.position.x, lockOnTarget.transform.position.z - transform.position.z);
