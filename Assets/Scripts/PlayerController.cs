@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     //character specific variables
     public float speed;
-    public float lockOnSpeed = 5f;
+    public float lockOnSpeed;
 
     //lock on related //For Future note: add the isLockingOn flag for the player
     public GameObject lockOnTarget = null;
@@ -38,10 +38,10 @@ public class PlayerController : MonoBehaviour
     public bool isDodging = false;
     private Vector3 dodgeEndPosition;
     private Vector3 dodgeDirection;
-    private float dodgeDistance = 4f;
+    private float dodgeDistance = 7f;
     private Vector3 dodgeVelocity;
-    private float dodgeVelocityMultiplier = 10f;
-    private float dodgeSmoothTime = 0.1f;
+    private float dodgeVelocityMultiplier = 8f;
+    private float dodgeSmoothTime = 0.2f;
 
 
     //receive the left joystick movement from the player
@@ -128,6 +128,14 @@ public class PlayerController : MonoBehaviour
 
     private void RollOrDodge()
     {
+
+        if (move == Vector2.zero)
+        {
+            isDodging = true;
+            HandleDodge(180f, -transform.forward);
+            return;
+        }
+
         Vector3 movement = new Vector3(move.x, 0f, move.y);
         if (lockOnTarget != null)
         {
@@ -146,17 +154,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (move == Vector2.zero)
-            {
-                isDodging = true;
-                HandleDodge(180f, -transform.forward);
-            }
-            else
-            {
                 isRolling = true;
                 HandleRoll(movement);
-            }
-
         }
     }
 
@@ -173,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
         //play the animation
         isActing = true;
-        animator.CrossFade("fist-diveRoll-forward", 0.2f);
+        animator.CrossFade("diveRoll-forward", 0.2f);
     }
 
     private void HandleDodge(float dodgeAngle, Vector3 movement)
@@ -290,14 +289,14 @@ public class PlayerController : MonoBehaviour
     {
         if (dodgeAngle >= 30f & dodgeAngle <= 105f)
         {
-            animator.CrossFade("fist-dodge-left",0.2f);
+            animator.CrossFade("dodge-left",0.2f);
         } else if (dodgeAngle >= -105f & dodgeAngle <= -30)
         {
-            animator.CrossFade("fist-dodge-right",0.2f);
+            animator.CrossFade("dodge-right",0.2f);
         }
         else
         {
-            animator.CrossFade("fist-dodge-backward", 0.2f);
+            animator.CrossFade("dodge-backward", 0.2f);
         }
     }
     private float calculateAngle(Vector3 movement)
