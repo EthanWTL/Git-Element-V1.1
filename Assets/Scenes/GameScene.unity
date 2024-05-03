@@ -723,13 +723,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631107592}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00926035, y: 0.6618125, z: -0.04403539, w: 0.7483177}
+  m_LocalRotation: {x: 0.006634169, y: 0.61784124, z: -0.04257223, w: 0.7851215}
   m_LocalPosition: {x: -0.162, y: -0.01, z: 0.004}
   m_LocalScale: {x: 1.5000008, y: 1.5834002, z: 1.5833999}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1376612709}
-  m_LocalEulerAnglesHint: {x: -184.137, y: 262.86798, z: 176.917}
+  m_LocalEulerAnglesHint: {x: -183.613, y: 256.29498, z: 176.631}
 --- !u!114 &1631528489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,8 +742,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23be16e4333c2774d9a7fa33a16b102d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runtimeAnimatorController: {fileID: 22100000, guid: 8a16dfc543133a045b1e028a0cac152d, type: 2}
+  playerCombatManager: {fileID: 3764541319790204131}
   playerAnimator: {fileID: 1864211595876369641}
+  runtimeAnimatorController: {fileID: 22100000, guid: 8a16dfc543133a045b1e028a0cac152d, type: 2}
 --- !u!1 &1000013309978920 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1361159876233474579, guid: 5309e511bbfccaa418c6f7fe04172c01, type: 3}
@@ -851,6 +852,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a84132b2-7933-4764-9c90-b15f3d5edd61
     m_ActionName: PlayerMove/Roll[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3764541319790204131}
+        m_TargetAssemblyTypeName: PlayerCombatManager, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0ec96ca-17e9-4094-b120-af825affedca
+    m_ActionName: Player/Attack1[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0f50defe-2382-4664-9a4a-9bb63efd93aa
+    m_ActionName: Player/Attack2[/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1251,12 +1272,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 3764541319790204130}
   animator: {fileID: 1864211595876369641}
-  playerAnimatorController: {fileID: 3764541319790204131}
+  playerCombatManager: {fileID: 3764541319790204131}
   move: {x: 0, y: 0}
   speed: 10
   lockOnSpeed: 6
   lockOnTarget: {fileID: 0}
   isActing: 0
+  canRoll: 1
   isRolling: 0
   isDodging: 0
 --- !u!4 &688566179540368198
@@ -3162,10 +3184,10 @@ GameObject:
   - component: {fileID: 2224377269064982529}
   - component: {fileID: 2578146265476741614}
   - component: {fileID: 75089806933039337}
+  - component: {fileID: 2165346727534048301}
   - component: {fileID: 67313237114767511}
   - component: {fileID: 686468184356088833}
   - component: {fileID: 3764541319790204131}
-  - component: {fileID: 2165346727534048301}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3182,10 +3204,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3764541319790204130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 230180c7dcab0764d81a42da15c24d1f, type: 3}
+  m_Script: {fileID: 11500000, guid: d9d3707a1df43c442abe88ea40988e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 686468184356088833}
+  isAttacking: 0
+  canCombo: 0
+  lastAttack: 
+  triggerAttack: 0
 --- !u!4 &3786887637694561946
 Transform:
   m_ObjectHideFlags: 0
@@ -5771,6 +5797,7 @@ MonoBehaviour:
   detectedObjects: []
   animator: {fileID: 1864211595876369641}
   aim: {fileID: 1226740531}
+  cameraFollow: {fileID: 369755729}
 --- !u!1 &7372778774089191818
 GameObject:
   m_ObjectHideFlags: 0

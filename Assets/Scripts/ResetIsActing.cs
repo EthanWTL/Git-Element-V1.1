@@ -5,15 +5,16 @@ using UnityEngine;
 public class ResetIsActing : StateMachineBehaviour
 {
     private PlayerController playerController;
+    private PlayerCombatManager playerCombatManager;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController = animator.GetComponent<PlayerController>();
+        playerCombatManager = animator.GetComponent<PlayerCombatManager>();
 
-        playerController.isActing = false;
-        playerController.isRolling = false;
-        playerController.isDodging = false;
+        playerController.resetFlags();
+        playerCombatManager.resetAttackSession();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

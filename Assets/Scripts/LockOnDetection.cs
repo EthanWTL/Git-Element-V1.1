@@ -13,6 +13,8 @@ public class LockOnDetection : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 aimInitialOffset;
 
+    public CameraFollow cameraFollow;
+
     private void Start()
     {
         aimInitialOffset = aim.localPosition - transform.localPosition;
@@ -60,6 +62,11 @@ public class LockOnDetection : MonoBehaviour
 
         if (playerController.lockOnTarget != null)
         {
+            //adject camera
+            Vector3 newOffset = new Vector3(0, 5, -4);
+            cameraFollow.offset = newOffset;
+
+            //start lock on
             animator.SetBool("isLockingOn", true);
             playerController.lockOnTarget.GetComponent<EnemyLockOnHandler>().isLockedOn = true;
         }
@@ -67,7 +74,10 @@ public class LockOnDetection : MonoBehaviour
     private void handleLockOnFinish()
     {
         animator.SetBool("isLockingOn", false);
+        Vector3 newOffset = new Vector3(0, 10, -8);
+        cameraFollow.offset = newOffset;
 
+        //fix this, double input when I release the lock on button
         if (playerController.lockOnTarget != null)
         {
             playerController.lockOnTarget.GetComponent<EnemyLockOnHandler>().isLockedOn = false;

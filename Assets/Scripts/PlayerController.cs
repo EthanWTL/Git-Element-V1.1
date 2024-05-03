@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     //global varibles
     public Animator animator;
-    public PlayerAnimatorController playerAnimatorController;
+    public PlayerCombatManager playerCombatManager;
 
     //input varibles
     public Vector2 move;
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public bool isActing = false;
 
     //roll related
+    public bool canRoll = true;
     public bool isRolling = false;
     private bool rollInput = false;
     private Vector3 rollEndPosition;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 rollVelocity;
     private float rollVelocityMultiplier = 5f;
     private float rollSmoothTime = 0.3f;
+
 
     //dodge related
     public bool isDodging = false;
@@ -44,7 +46,7 @@ public class PlayerController : MonoBehaviour
     private float dodgeSmoothTime = 0.2f;
 
 
-    //receive the left joystick movement from the player
+
     public void OnMove(InputAction.CallbackContext context)
     {
         move = context.ReadValue<Vector2>();
@@ -52,10 +54,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnRoll(InputAction.CallbackContext context)
     {
+        if(canRoll == false)
+        {
+            return;
+        }
+
         rollInput = true;
     }
 
-    
+
+
 
     // Update is called once per frame
     void Update()
@@ -67,14 +75,12 @@ public class PlayerController : MonoBehaviour
         translateRollingPlayer();
         translateDodgingPlayer();
 
-
     }
 
 
-    //using the user input to move the Player, set animation
     public void HandleMove()
     {
-        if(lockOnTarget == null & isActing == false)
+        if(lockOnTarget == null & isActing == false & playerCombatManager.isAttacking == false)
         {
             Vector3 movement = new Vector3(move.x, 0f, move.y);
 
@@ -91,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLockOn()
     {
-        if (lockOnTarget != null & isActing == false)
+        if (lockOnTarget != null & isActing == false & playerCombatManager.isAttacking == false)
         {
             //move the player with certain speed;
             Vector3 movement = new Vector3(move.x, 0f, move.y);
@@ -107,6 +113,12 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptRoll()
     {
+
+        if(canRoll == false)
+        {
+            return;
+        }
+
         //is no input for the roll or dodge, do nothing
         if (rollInput == false)
         {
@@ -161,6 +173,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRoll(Vector3 movement)
     {
+        //reset the attack animation
+        playerCombatManager.resetAttackSession();
+
         //handle rotation
         rollDirection = movement.normalized;
         Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
@@ -172,11 +187,16 @@ public class PlayerController : MonoBehaviour
 
         //play the animation
         isActing = true;
-        animator.CrossFade("diveRoll-forward", 0.2f);
+        animator.CrossFade("diveRoll-forward",0.1f);
+
+        
     }
 
     private void HandleDodge(float dodgeAngle, Vector3 movement)
     {
+        //reset the attack animation
+        playerCombatManager.resetAttackSession();
+
         //no rotation
         //calculate dodge related variables
         dodgeDirection = movement.normalized;
@@ -185,8 +205,10 @@ public class PlayerController : MonoBehaviour
 
         //play related animation and set flag
         isActing = true;
+
         //set the currect animation base on the angle.
         setDodgeAnimation(dodgeAngle);
+        
     }
 
     private void translatePlayer(Vector3 movement)
@@ -224,7 +246,6 @@ public class PlayerController : MonoBehaviour
 
         player.transform.position = Vector3.SmoothDamp(player.transform.position, dodgeEndPosition, ref dodgeVelocity, dodgeSmoothTime);
     }
-
 
     private void translateLockOnPlayer(Vector3 movement)
     {
@@ -289,16 +310,17 @@ public class PlayerController : MonoBehaviour
     {
         if (dodgeAngle >= 30f & dodgeAngle <= 105f)
         {
-            animator.CrossFade("dodge-left",0.2f);
+            animator.CrossFade("dodge-left", 0.1f);
         } else if (dodgeAngle >= -105f & dodgeAngle <= -30)
         {
-            animator.CrossFade("dodge-right",0.2f);
+            animator.CrossFade("dodge-right", 0.1f);
         }
         else
         {
-            animator.CrossFade("dodge-backward", 0.2f);
+            animator.CrossFade("dodge-backward", 0.1f);
         }
     }
+
     private float calculateAngle(Vector3 movement)
     {
         Vector2 directionToObject = new Vector2(lockOnTarget.transform.position.x - transform.position.x, lockOnTarget.transform.position.z - transform.position.z);
@@ -315,6 +337,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-   
-
+    public void resetFlags()
+    {
+        isActing = false;
+        isRolling = false;
+        isDodging = false;
+    }
 }
