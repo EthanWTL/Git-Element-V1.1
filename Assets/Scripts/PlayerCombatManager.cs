@@ -14,6 +14,7 @@ public class PlayerCombatManager : MonoBehaviour
     public bool triggerAttack = false;
 
 
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         if(playerController.isRolling == true | playerController.isDodging == true)
@@ -61,5 +62,6 @@ public class PlayerCombatManager : MonoBehaviour
         canCombo = false;
         isAttacking = false;
     }
+
 
 }

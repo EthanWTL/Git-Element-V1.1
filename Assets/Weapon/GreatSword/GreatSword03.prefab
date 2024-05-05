@@ -1,5 +1,98 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &285395559362197343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5106398085923557823}
+  m_Layer: 0
+  m_Name: Combo1_1st_spawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5106398085923557823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285395559362197343}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.6153223, y: 0.18639597, z: -0.3836138, w: 0.6629296}
+  m_LocalPosition: {x: -0.15103196, y: -0.19198231, z: 0.012011669}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8124612772731819938}
+  m_LocalEulerAnglesHint: {x: -42.285, y: 76.455, z: -93.997}
+--- !u!1 &4210846126379917798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 238214923718205359}
+  m_Layer: 0
+  m_Name: Combo1_3rd_spawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &238214923718205359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210846126379917798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.028, y: 1.11, z: 0.044}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8124612772731819938}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4697402953005688200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9043418100393759265}
+  m_Layer: 0
+  m_Name: Combo1_2nd_spawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9043418100393759265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4697402953005688200}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.674743, y: 0.5626174, z: 0.46397346, w: 0.11363155}
+  m_LocalPosition: {x: 0.26301727, y: -0.4680068, z: 0.12801497}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8124612772731819938}
+  m_LocalEulerAnglesHint: {x: -42.487, y: 222.507, z: -117.552}
 --- !u!1 &7715320626882714147
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +105,7 @@ GameObject:
   - component: {fileID: 2970718908426014109}
   - component: {fileID: 7175704893186955075}
   - component: {fileID: 782464096548536848}
-  - component: {fileID: 8527009082046484179}
+  - component: {fileID: 6680584420303495682}
   m_Layer: 0
   m_Name: GreatSword03
   m_TagString: Untagged
@@ -28,11 +121,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7715320626882714147}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.47419825, y: 0.540932, z: -0.5117183, w: 0.46975854}
+  m_LocalRotation: {x: -0.4741986, y: 0.54092956, z: -0.5117178, w: 0.46976143}
   m_LocalPosition: {x: 0.067, y: 0.03, z: 0.144}
   m_LocalScale: {x: 1.3077611, y: 1.4445887, z: 1.274}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5106398085923557823}
+  - {fileID: 9043418100393759265}
+  - {fileID: 238214923718205359}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 6.205, y: -267.986, z: 271.531}
 --- !u!33 &2970718908426014109
@@ -107,7 +203,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 108972414294439094, guid: 3327df989e0fa17429dcab93b7f40cbb, type: 2}
---- !u!114 &8527009082046484179
+--- !u!114 &6680584420303495682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,3 +218,10 @@ MonoBehaviour:
   playerCombatManager: {fileID: 0}
   playerAnimator: {fileID: 0}
   runtimeAnimatorController: {fileID: 22100000, guid: 8a16dfc543133a045b1e028a0cac152d, type: 2}
+  playerVFXManager: {fileID: 0}
+  combo1_1st: {fileID: 959951780794341960, guid: e676c19ef1d7b144fb90f177f869722b, type: 3}
+  MeleeCombo1_1stTransform: {fileID: 5106398085923557823}
+  combo1_2nd: {fileID: 959951780794341960, guid: e676c19ef1d7b144fb90f177f869722b, type: 3}
+  MeleeCombo1_2ndTransform: {fileID: 9043418100393759265}
+  combo1_3rd: {fileID: 1814315751473787963, guid: e9459def1a517a24ba482f9e639df7ff, type: 3}
+  MeleeCombo1_3rdTransform: {fileID: 238214923718205359}
