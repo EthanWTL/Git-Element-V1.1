@@ -14,7 +14,7 @@ public class ResetIsActing : StateMachineBehaviour
         playerCombatManager = animator.GetComponent<PlayerCombatManager>();
 
         playerController.resetFlags();
-        playerCombatManager.resetAttackSession();
+        playerCombatManager.resetPlayerCombatManager();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

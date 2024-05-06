@@ -18,6 +18,10 @@ public class WeaponGreatSword : MonoBehaviour
     private string greatSwordAttack2 = "greatSword-attack02";
     private string greatSwordAttack3 = "greatSword-attack03";
 
+    private string greatSwordChargeAttackStartCharge = "greatSword-chargeAttack-startCharge";
+    private string greatSwordChargeAttackPhase1 = "greatSword-chargeAttack-phase1";
+    private string greatSwordChargeAttackPhase2 = "greatSword-chargeAttack-phase2";
+
     //VFX
     private PlayerVFXManager playerVFXManager;
 
@@ -41,6 +45,9 @@ public class WeaponGreatSword : MonoBehaviour
 
     public GameObject combo1_3rd_slash;
     public Transform MeleeCombo1_3rd_slashTransform;
+
+    public GameObject combo1_3rd_slashSmoke;
+    public Transform MeleeCombo1_3rd_slashSmokeTransform;
 
     public GameObject combo1_3rd_ground;
     public Transform MeleeCombo1_3rd_groundTransform;
@@ -88,6 +95,9 @@ public class WeaponGreatSword : MonoBehaviour
         playerVFXManager.MeleeCombo1_3rd_slash = combo1_3rd_slash;
         playerVFXManager.MeleeCombo1_3rd_slashTransform = MeleeCombo1_3rd_slashTransform;
 
+        playerVFXManager.MeleeCombo1_3rd_slashSmoke = combo1_3rd_slashSmoke;
+        playerVFXManager.MeleeCombo1_3rd_slashSmokeTransForm = MeleeCombo1_3rd_slashSmokeTransform;
+
         playerVFXManager.MeleeCombo1_3rd_ground = combo1_3rd_ground;
         playerVFXManager.MeleeCombo1_3rd_groundTransform = MeleeCombo1_3rd_groundTransform;
     }
@@ -95,7 +105,14 @@ public class WeaponGreatSword : MonoBehaviour
 
     private void Update()
     {
+        HandleMeleeCombo1();
+        HandleCharge();
+    }
 
+
+
+    private void HandleMeleeCombo1()
+    {
         if (playerCombatManager.triggerAttack == false)
         {
             return;
@@ -106,6 +123,21 @@ public class WeaponGreatSword : MonoBehaviour
 
             playerCombatManager.triggerAttack = false;
             performAttack();
+        }
+    }
+    private void HandleCharge()
+    {
+        if (playerCombatManager.triggerCharge == true)
+        {
+            playerCombatManager.chargeTime += Time.deltaTime;
+            performCharge(playerCombatManager.chargeTime);
+        }
+
+        if(playerCombatManager.endCharge == true)
+        {
+            playerCombatManager.endCharge = false;
+            StartCoroutine(ChargeAttack(playerCombatManager.chargeTime));
+            playerCombatManager.chargeTime = 0;
         }
     }
 
@@ -145,6 +177,39 @@ public class WeaponGreatSword : MonoBehaviour
         playerCombatManager.lastAttack = attackName;
     }
 
+    private void performCharge(float chargeTime)
+    {
+        //play animation and set up flagger base on chargeTime
+        if(chargeTime >= 0.5f)
+        {
+            if(playerCombatManager.lastChargeAnimation == "")
+            {
+                playerAnimator.CrossFade(greatSwordChargeAttackStartCharge, 0.1f);
+                playerCombatManager.lastChargeAnimation = greatSwordChargeAttackStartCharge;
+            }
+            
+        }
+    }
 
+    IEnumerator ChargeAttack(float chargeTime)
+    {
+        Debug.Log(chargeTime);
+        if (chargeTime >= 0.5f & chargeTime < 1.2f)
+        {
+            yield return new WaitForSeconds(1.2f - chargeTime);
+            playerAnimator.CrossFade(greatSwordChargeAttackPhase1, 0.1f);
+            playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase1;
+        }
+        else if(chargeTime >= 1.2f & chargeTime < 2f)
+        {
+            playerAnimator.CrossFade(greatSwordChargeAttackPhase1, 0.1f);
+            playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase1;
+        }
+        else
+        {
+            playerAnimator.CrossFade(greatSwordChargeAttackPhase2, 0.1f);
+            playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase2;
+        }
+    }
 
 }

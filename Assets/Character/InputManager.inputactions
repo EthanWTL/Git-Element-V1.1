@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack1",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "b0ec96ca-17e9-4094-b120-af825affedca",
                     "expectedControlType": "Button",
@@ -42,9 +42,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack2",
+                    "name": "Charge",
                     "type": "Button",
-                    "id": "0f50defe-2382-4664-9a4a-9bb63efd93aa",
+                    "id": "a44fcfec-7f8d-4cfc-ac12-e58a935bcb50",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -169,18 +169,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ac2bda33-da3a-480d-89de-c438fbd5bf65",
+                    "id": "5d053d02-08e6-4fb0-830c-1ee3fe765eb2",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack2",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -27,6 +27,9 @@ public class PlayerVFXManager : MonoBehaviour
     public GameObject MeleeCombo1_3rd_slash;
     public Transform MeleeCombo1_3rd_slashTransform;
 
+    public GameObject MeleeCombo1_3rd_slashSmoke;
+    public Transform MeleeCombo1_3rd_slashSmokeTransForm;
+
     public GameObject MeleeCombo1_3rd_ground;
     public Transform MeleeCombo1_3rd_groundTransform;
 
@@ -36,7 +39,7 @@ public class PlayerVFXManager : MonoBehaviour
     {
         Vector3 localPosition = MeleeCombo1_sparkTransform.localPosition;
         Vector3 worldPosition = weapon.transform.TransformPoint(localPosition);
-        GameObject combo1_1st = Instantiate(MeleeCombo1_spark, worldPosition, Quaternion.identity);
+        GameObject combo1_spark = Instantiate(MeleeCombo1_spark, worldPosition, Quaternion.identity);
     }
 
 
@@ -52,7 +55,7 @@ public class PlayerVFXManager : MonoBehaviour
     {
         Vector3 localPosition = MeleeCombo1_1st_slashSmokeTransForm.localPosition;
         Vector3 worldPosition = weapon.transform.TransformPoint(localPosition);
-        GameObject combo1_1st = Instantiate(MeleeCombo1_1st_slashSmoke, worldPosition, MeleeCombo1_1st_slashSmokeTransForm.rotation);
+        GameObject combo1_1st_slashSmoke = Instantiate(MeleeCombo1_1st_slashSmoke, worldPosition, MeleeCombo1_1st_slashSmokeTransForm.rotation);
     }
 
     public void playMeleeCombo1_2nd()
@@ -66,7 +69,7 @@ public class PlayerVFXManager : MonoBehaviour
     {
         Vector3 localPosition = MeleeCombo1_2nd_slashSmokeTransForm.localPosition;
         Vector3 worldPosition = weapon.transform.TransformPoint(localPosition);
-        GameObject combo1_1st = Instantiate(MeleeCombo1_2nd_slashSmoke, worldPosition, MeleeCombo1_2nd_slashSmokeTransForm.rotation);
+        GameObject combo1_2nd_slashSmoke = Instantiate(MeleeCombo1_2nd_slashSmoke, worldPosition, MeleeCombo1_2nd_slashSmokeTransForm.rotation);
     }
 
 
@@ -83,6 +86,13 @@ public class PlayerVFXManager : MonoBehaviour
         Vector3 localPosition = MeleeCombo1_3rd_slashTransform.localPosition;
         Vector3 worldPosition = weapon.transform.TransformPoint(localPosition);
         GameObject combo1_3rd_slash = Instantiate(MeleeCombo1_3rd_slash, worldPosition, MeleeCombo1_3rd_slashTransform.rotation);
+    }
+
+    public void playMeleeCombo1_3rd_slashSmoke()
+    {
+        Vector3 localPosition = MeleeCombo1_3rd_slashSmokeTransForm.localPosition;
+        Vector3 worldPosition = weapon.transform.TransformPoint(localPosition);
+        GameObject combo1_3rd_slash_smoke = Instantiate(MeleeCombo1_3rd_slashSmoke, worldPosition, MeleeCombo1_3rd_slashSmokeTransForm.rotation);
     }
 
     public void playMeleeCombo1_3rd_gournd()

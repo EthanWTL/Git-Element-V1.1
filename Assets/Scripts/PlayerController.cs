@@ -11,9 +11,6 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public PlayerCombatManager playerCombatManager;
 
-    //input varibles
-    public Vector2 move;
-
     //character specific variables
     public float speed;
     public float lockOnSpeed;
@@ -23,6 +20,10 @@ public class PlayerController : MonoBehaviour
 
     //action related
     public bool isActing = false;
+
+    //move related
+    public bool canMove = true;
+    public Vector2 move;
 
     //roll related
     public bool canRoll = true;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+
         move = context.ReadValue<Vector2>();
     }
 
@@ -136,6 +138,7 @@ public class PlayerController : MonoBehaviour
 
         //check we should roll or dodge, set up the rolling or dodging flag
         RollOrDodge();
+
     }
 
     private void RollOrDodge()

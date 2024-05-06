@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &988780524275926121
 Transform:
   m_ObjectHideFlags: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.6506, z: 1.18}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,6 +119,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23be16e4333c2774d9a7fa33a16b102d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCombatManager: {fileID: 0}
-  playerAnimator: {fileID: 0}
-  runtimeAnimatorController: {fileID: 0}
+  runtimeAnimatorController: {fileID: 22100000, guid: 8a16dfc543133a045b1e028a0cac152d, type: 2}
+  combo1_spark: {fileID: 0}
+  MeleeCombo1_sparkTransform: {fileID: 0}
+  combo1_1st_slashSmoke: {fileID: 0}
+  MeleeCombo1_1st_slashSmokeTransform: {fileID: 0}
+  combo1_1st: {fileID: 0}
+  MeleeCombo1_1stTransform: {fileID: 0}
+  combo1_2nd: {fileID: 0}
+  MeleeCombo1_2ndTransform: {fileID: 0}
+  combo1_2nd_slashSmoke: {fileID: 0}
+  MeleeCombo1_2nd_slashSmokeTransform: {fileID: 0}
+  combo1_3rd: {fileID: 0}
+  MeleeCombo1_3rdTransform: {fileID: 0}
+  combo1_3rd_slash: {fileID: 0}
+  MeleeCombo1_3rd_slashTransform: {fileID: 0}
+  combo1_3rd_slashSmoke: {fileID: 0}
+  MeleeCombo1_3rd_slashSmokeTransform: {fileID: 0}
+  combo1_3rd_ground: {fileID: 0}
+  MeleeCombo1_3rd_groundTransform: {fileID: 0}
