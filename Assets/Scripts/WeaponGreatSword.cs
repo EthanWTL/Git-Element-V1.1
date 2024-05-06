@@ -205,7 +205,7 @@ public class WeaponGreatSword : MonoBehaviour
             playerAnimator.CrossFade(greatSwordChargeAttackPhase1, 0.1f);
             playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase1;
         }
-        else
+        else if(chargeTime > 2f)
         {
             playerAnimator.CrossFade(greatSwordChargeAttackPhase2, 0.1f);
             playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase2;
