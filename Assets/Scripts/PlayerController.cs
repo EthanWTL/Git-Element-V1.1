@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     public bool isActing = false;
 
     //move related
-    public bool canMove = true;
     public Vector2 move;
 
     //roll related
@@ -31,9 +30,9 @@ public class PlayerController : MonoBehaviour
     private bool rollInput = false;
     private Vector3 rollEndPosition;
     private Vector3 rollDirection;
-    private float rollDistance = 10f;
+    private float rollDistance = 6f;
     private Vector3 rollVelocity;
-    private float rollVelocityMultiplier = 5f;
+    private float rollVelocityMultiplier = 3f;
     private float rollSmoothTime = 0.3f;
 
 
@@ -41,16 +40,15 @@ public class PlayerController : MonoBehaviour
     public bool isDodging = false;
     private Vector3 dodgeEndPosition;
     private Vector3 dodgeDirection;
-    private float dodgeDistance = 7f;
+    private float dodgeDistance = 3.5f;
     private Vector3 dodgeVelocity;
-    private float dodgeVelocityMultiplier = 8f;
-    private float dodgeSmoothTime = 0.2f;
+    private float dodgeVelocityMultiplier = 1.5f;
+    private float dodgeSmoothTime = 0.15f;
 
 
 
     public void OnMove(InputAction.CallbackContext context)
     {
-
         move = context.ReadValue<Vector2>();
     }
 
@@ -138,6 +136,9 @@ public class PlayerController : MonoBehaviour
 
         //check we should roll or dodge, set up the rolling or dodging flag
         RollOrDodge();
+
+        //if player roll when charge, reset charge
+        playerCombatManager.resetChargeAttack();
 
     }
 

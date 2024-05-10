@@ -23,6 +23,7 @@ public class WeaponGreatSword : MonoBehaviour
     private string greatSwordChargeAttackPhase2 = "greatSword-chargeAttack-phase2";
 
     //VFX
+    #region
     private PlayerVFXManager playerVFXManager;
 
     public GameObject combo1_spark;
@@ -52,9 +53,12 @@ public class WeaponGreatSword : MonoBehaviour
     public GameObject combo1_3rd_ground;
     public Transform MeleeCombo1_3rd_groundTransform;
 
-
-
-
+    public GameObject charge_energyin_level1;
+    public Transform MeleeCharge_energyin_level1Transform;
+    
+    public GameObject charge_energyin_level2;
+    public Transform MeleeCharge_energyin_level2Transform;
+    #endregion
 
     private void Start()
     {
@@ -71,6 +75,9 @@ public class WeaponGreatSword : MonoBehaviour
         //override animator
         playerAnimator.runtimeAnimatorController = runtimeAnimatorController;
 
+
+        //assign weapon animation to playervfxmanager
+        #region
         //assign VFX for animations
         playerVFXManager.weapon = gameObject;
 
@@ -82,7 +89,7 @@ public class WeaponGreatSword : MonoBehaviour
 
         playerVFXManager.MeleeCombo1_1st = combo1_1st;
         playerVFXManager.MeleeCombo1_1stTransform = MeleeCombo1_1stTransform;
-        
+
         playerVFXManager.MeleeCombo1_2nd = combo1_2nd;
         playerVFXManager.MeleeCombo1_2ndTransform = MeleeCombo1_2ndTransform;
 
@@ -100,6 +107,14 @@ public class WeaponGreatSword : MonoBehaviour
 
         playerVFXManager.MeleeCombo1_3rd_ground = combo1_3rd_ground;
         playerVFXManager.MeleeCombo1_3rd_groundTransform = MeleeCombo1_3rd_groundTransform;
+
+        playerVFXManager.MeleeCharge_Energyin_level1 = charge_energyin_level1;
+        playerVFXManager.MeleeCharge_Energyin_level1Transform = MeleeCharge_energyin_level1Transform;
+
+        playerVFXManager.MeleeCharge_Energyin_level2 = charge_energyin_level2;
+        playerVFXManager.MeleeCharge_Energyin_level2Transform = MeleeCharge_energyin_level2Transform;
+        #endregion
+
     }
 
 
@@ -184,29 +199,38 @@ public class WeaponGreatSword : MonoBehaviour
         {
             if(playerCombatManager.lastChargeAnimation == "")
             {
+                playerCombatManager.startAttack();
                 playerAnimator.CrossFade(greatSwordChargeAttackStartCharge, 0.1f);
                 playerCombatManager.lastChargeAnimation = greatSwordChargeAttackStartCharge;
             }
             
+            if(chargeTime > 2.5f)
+            {
+                playerVFXManager.playMeleeCharge1_energyin_level2();
+                Destroy(playerVFXManager.charge_energyin_level1);
+
+            }
         }
     }
 
     IEnumerator ChargeAttack(float chargeTime)
     {
-        Debug.Log(chargeTime);
         if (chargeTime >= 0.5f & chargeTime < 1.2f)
         {
+            playerCombatManager.disableRoll();
             yield return new WaitForSeconds(1.2f - chargeTime);
             playerAnimator.CrossFade(greatSwordChargeAttackPhase1, 0.1f);
             playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase1;
         }
-        else if(chargeTime >= 1.2f & chargeTime < 2f)
+        else if(chargeTime >= 1.2f & chargeTime < 2.5f)
         {
+            playerCombatManager.disableRoll();
             playerAnimator.CrossFade(greatSwordChargeAttackPhase1, 0.1f);
             playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase1;
         }
-        else if(chargeTime > 2f)
+        else if(chargeTime > 2.5f)
         {
+            playerCombatManager.disableRoll();
             playerAnimator.CrossFade(greatSwordChargeAttackPhase2, 0.1f);
             playerCombatManager.lastChargeAnimation = greatSwordChargeAttackPhase2;
         }

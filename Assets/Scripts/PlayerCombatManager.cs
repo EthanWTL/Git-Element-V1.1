@@ -110,15 +110,5 @@ public class PlayerCombatManager : MonoBehaviour
 
 
 
-    public void disableMove()
-    {
-        playerController.canMove = false;
-    }
-
-    public void enableMove()
-    {
-        playerController.canMove = true;
-    }
-
 
 }
